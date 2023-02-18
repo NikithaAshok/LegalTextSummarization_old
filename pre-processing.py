@@ -18,7 +18,7 @@ import string
 
 
 #creating a pdf file object
-pdf = open("C:\\Users\\Harsha Ashok\\Downloads\\abstract.pdf","rb")
+pdf = open(".\\abstract.pdf","rb")
 
 #creating a pdf reader object
 pdf_reader = PyPDF2.PdfReader(pdf)
