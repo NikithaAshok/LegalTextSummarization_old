@@ -14,6 +14,7 @@ from sumy.summarizers.text_rank import TextRankSummarizer
 from sumy.summarizers.lex_rank import LexRankSummarizer
 from sumy.summarizers.lsa import LsaSummarizer
 from sumy.summarizers.luhn import LuhnSummarizer
+from sumy.summarizers.kl import KLSummarizer
 from sumy.nlp.tokenizers import Tokenizer
 from sumy.parsers.plaintext import PlaintextParser
 
@@ -87,4 +88,10 @@ for i in range(0,len(pdf_reader.pages)):
     luhn_summarizer = LuhnSummarizer()
     luhn_summary = luhn_summarizer(luhn_parser.document,3)
     print("Luhn Summary : ",luhn_summary)
+
+    #KL-Sum Summarization selects sentences based on similarity of word distribution as the original text
+    kl_parser = PlaintextParser.from_string('\n'.join(sentences),Tokenizer('english'))
+    kl_summarizer = KLSummarizer()
+    kl_summary = kl_summarizer(kl_parser.document,3)
+    print("KL-Sum Summary : ",kl_summary)
 
