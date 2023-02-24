@@ -12,6 +12,7 @@ import re
 import string
 from sumy.summarizers.text_rank import TextRankSummarizer
 from sumy.summarizers.lex_rank import LexRankSummarizer
+from sumy.summarizers.lsa import LsaSummarizer
 from sumy.nlp.tokenizers import Tokenizer
 from sumy.parsers.plaintext import PlaintextParser
 
@@ -73,6 +74,13 @@ for i in range(0,len(pdf_reader.pages)):
     lex_summarizer = LexRankSummarizer()
     lex_summary = lex_summarizer(lex_parser.document, sentences_count=3)
     print("Lex Rank Summary: ",lex_summary)     
+
+    # LSA( latent semantic analysis ) --- LSA extracts semantically significant sentences by applying SVD to the term-document frequency
+    lsa_parser = PlaintextParser.from_string('\n'.join(sentences),Tokenizer('english'))
+    lsa_summarizer = LsaSummarizer()
+    lsa_summary = lsa_summarizer(lsa_parser.document,3)
+    print("LSA summary : ",lsa_summary)
+
 
     
 
