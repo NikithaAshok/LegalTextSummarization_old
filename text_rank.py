@@ -67,13 +67,12 @@ for i in range(0,len(pdf_reader.pages)):
     text_without_stopwords = remove_stop_words(extracted_text) #removing stopwords (function called)
     #stemmed_tokens = [stemmer.stem(word) for word in text_without_stopwords]
     sentences = sent_tokenize(extracted_text)
-    sentences = [sentence for sentence in sentences if not any(word.lower() in stop_words for word in sentence.split())]
+    #sentences = [sentence for sentence in sentences if not any(word.lower() in stop_words for word in sentence.split())]
     
     parser = PlaintextParser.from_string('\n'.join(sentences),Tokenizer('english'))
     summarizer = TextRankSummarizer()
-    summary = summarizer(parser.document,4)
-    #print("Text in page :",i+1," is ",text_without_stopwords)
-    #print(text_after_stem)
-    print(summary)
+    summary = summarizer(parser.document,4) 
+    #summarizer has arguments document and sentences_count
+    print("Summary :",summary)
     
 
