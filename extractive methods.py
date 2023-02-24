@@ -13,6 +13,7 @@ import string
 from sumy.summarizers.text_rank import TextRankSummarizer
 from sumy.summarizers.lex_rank import LexRankSummarizer
 from sumy.summarizers.lsa import LsaSummarizer
+from sumy.summarizers.luhn import LuhnSummarizer
 from sumy.nlp.tokenizers import Tokenizer
 from sumy.parsers.plaintext import PlaintextParser
 
@@ -81,6 +82,9 @@ for i in range(0,len(pdf_reader.pages)):
     lsa_summary = lsa_summarizer(lsa_parser.document,3)
     print("LSA summary : ",lsa_summary)
 
-
-    
+    #Luhn Summarization algorithm’s approach is based on TF-IDF
+    luhn_parser = PlaintextParser.from_string('\n'.join(sentences),Tokenizer('english'))
+    luhn_summarizer = LuhnSummarizer()
+    luhn_summary = luhn_summarizer(luhn_parser.document,3)
+    print("Luhn Summary : ",luhn_summary)
 
