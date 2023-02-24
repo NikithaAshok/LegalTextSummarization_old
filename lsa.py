@@ -1,5 +1,6 @@
-#TextRank is a graph based ranking algorithm that can be used for extractive summarization
-#pip install sumy
+#unsupervised learning method
+#it extracts semantically significant sentences by applying SVD
+#to the term-document frequency
 
 import PyPDF2
 from PyPDF2 import PdfReader
@@ -10,11 +11,9 @@ from nltk.tokenize import sent_tokenize
 from nltk.stem import PorterStemmer
 import re
 import string
-from sumy.summarizers.text_rank import TextRankSummarizer
+from sumy.summarizers.lsa import LsaSummarizer
 from sumy.nlp.tokenizers import Tokenizer
 from sumy.parsers.plaintext import PlaintextParser
-
-
 
 #creating a pdf file object
 pdf = open(".\\abstract.pdf","rb")
@@ -66,9 +65,7 @@ for i in range(0,len(pdf_reader.pages)):
     #sentences = [sentence for sentence in sentences if not any(word.lower() in stop_words for word in sentence.split())]
     
     parser = PlaintextParser.from_string('\n'.join(sentences),Tokenizer('english'))
-    summarizer = TextRankSummarizer()
-    summary = summarizer(parser.document,4) 
-    #summarizer has arguments document and sentences_count
-    print("Summary :",summary)
-    
+    lsa_summarizer = LsaSummarizer()
+    lsa_summary = lsa_summarizer(parser.document,3)
 
+    print("Summary : ", lsa_summary)
