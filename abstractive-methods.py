@@ -7,9 +7,10 @@ import nltk
 nltk.download('punkt')
 from nltk.corpus import stopwords
 from nltk.tokenize import sent_tokenize
+import string
 
 #creating a pdf file object
-pdf = open(".\\abstract.pdf","rb")
+pdf = open("C://Users//krithika//Downloads//example.pdf","rb")
 
 #creating a pdf reader object
 pdf_reader = PyPDF2.PdfReader(pdf)
@@ -52,8 +53,8 @@ def stemming(text):
     return stemmed_text
 
 #instantiating the model and tokenizer
-my_model = T5ForConditionalGeneration.from_pretrained('t5-small')
-tokenizer = T5Tokenizer.from_pretrained('t5-small')
+my_model = T5ForConditionalGeneration.from_pretrained('t5-base')
+tokenizer = T5Tokenizer.from_pretrained('t5-base')
 
 
 for i in range(0,len(pdf_reader.pages)):
@@ -61,7 +62,7 @@ for i in range(0,len(pdf_reader.pages)):
     extracted_text = page.extract_text() # extraction happens here
     text_without_stopwords = remove_stop_words(extracted_text) #removing stopwords (function called)
     sentences = sent_tokenize(extracted_text)
-    text = "summarize:" + sentences
+    text = "summarize:" + extracted_text
 
     #T5 MODEL -----------
     #converting input sequence to input-ids through process of encoding - encode()
