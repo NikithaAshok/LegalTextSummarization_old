@@ -1,5 +1,4 @@
-#TextRank is a graph based ranking algorithm that can be used for extractive summarization
-#pip install sumy
+
 
 import PyPDF2
 from PyPDF2 import PdfReader
