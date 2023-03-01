@@ -1,6 +1,7 @@
 #T5 is an encoder-decoder model. Converts all language problems into text-to-text format.
 
 from transformers import T5Tokenizer, T5Config, T5ForConditionalGeneration
+from transformers import BartForConditionalGeneration, BartTokenizer, BartConfig
 import PyPDF2
 from PyPDF2 import PdfReader
 import nltk
@@ -52,10 +53,13 @@ def stemming(text):
 
     return stemmed_text
 
-#instantiating the model and tokenizer
-my_model = T5ForConditionalGeneration.from_pretrained('t5-base')
-tokenizer = T5Tokenizer.from_pretrained('t5-base')
+#T5 Model 
+t5_model = T5ForConditionalGeneration.from_pretrained('t5-base')
+t5_tokenizer = T5Tokenizer.from_pretrained('t5-base')
 
+#BART Model
+bart_model = BartForConditionalGeneration.from_pretrained('facebook/bart-large-cnn')
+bart_tokenizer = BartTokenizer.from_pretrained('facebook/bart-large-cnn')
 
 for i in range(0,len(pdf_reader.pages)):
     page = pdf_reader.pages[i]
@@ -64,11 +68,17 @@ for i in range(0,len(pdf_reader.pages)):
     sentences = sent_tokenize(extracted_text)
     text = "summarize:" + extracted_text
 
-    #T5 MODEL -----------
-    #converting input sequence to input-ids through process of encoding - encode()
-    input_ids = tokenizer.encode(text,return_tensors='pt',max_length=512)
-    #generate() method returns a sequence of ids corresponding to the summary
-    summary_ids = my_model.generate(input_ids)
-    #using decode() function to generate summary text from the above ids
-    t5_summary = tokenizer.decode(summary_ids[0])
-    print(t5_summary)
+    # #T5 MODEL -----------
+    # #converting input sequence to input-ids through process of encoding - encode()
+    # input_ids = t5_tokenizer.encode(text,return_tensors='pt',max_length=512)
+    # #generate() method returns a sequence of ids corresponding to the summary
+    # summary_ids = t5_model.generate(input_ids)
+    # #using decode() function to generate summary text from the above ids
+    # t5_summary = t5_tokenizer.decode(summary_ids[0])
+    # print(t5_summary)
+
+    #BART MODEL ------------
+    bart_inputs = bart_tokenizer.encode(extracted_text,return_tensors='pt')
+    bart_summary_ids = bart_model.generate(bart_inputs)
+    bart_summary = bart_tokenizer.decode(bart_summary_ids[0],skip_special_tokens=True)
+    print(bart_summary)
